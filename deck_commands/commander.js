@@ -13,11 +13,12 @@ function sanitizeCommand(msg) {
 
 module.exports = {
     name: 'commander',
-    description : "Filter Decks by Commander",
+    description : "Filter decks by their commander.",
+    usage: "<commander_name>",
     execute(msg, decks, args) {
       let messageContents = sanitizeCommand(msg);
       if (messageContents[0] == "commander") {
-        let commander = messageContents[1];
+        let commander = messageContents.slice(1).join(" ");
         let results = deckFormat.filterByCommanders(commander, decks);
         if (results.length == 0) {
           msg.reply("No decks were found with that commander.");

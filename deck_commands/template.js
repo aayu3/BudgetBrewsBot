@@ -1,4 +1,4 @@
-const supporterSearch = require("../deckFormat.js");
+const deckFormat = require("../deckFormat.js");
 
 // function to sanitize msgs and return an array of commands and arguments
 // returns 0 if the message is not a command

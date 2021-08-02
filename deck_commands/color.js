@@ -13,7 +13,8 @@ function sanitizeCommand(msg) {
 
 module.exports = {
     name: 'color',
-    description : "Filter Decks by Color, if there is an argument like atmost, includes/atleast, exact",
+    description : "Filter decks by their color, if there is an argument like atmost, includes/atleast, exact it will apply that argument to the input, otherwise it will default to an exact matching.",
+    usage: '<filter> <colors>',
     execute(msg, decks, args) {
       let messageContents = sanitizeCommand(msg);
       if (messageContents[0] == "color") {
@@ -28,11 +29,9 @@ module.exports = {
             results = deckFormat.filterByColorIncludes(colors, decks);
             passed = true;
           } else if (messageContents[1].toLowerCase() == "exact") {
-            let results = deckFormat.filterByColorExact(colors, decks);
+            results = deckFormat.filterByColorExact(colors, decks);
             passed = true;
-          } else {
-            msg.reply("Please specify one of the following modifiers: atmost, includes/atleast, exact");
-          }
+          } 
           if (passed) {
             if (results.length == 0) {
               msg.reply("No decks were found with that exact color specification.");
@@ -61,10 +60,7 @@ module.exports = {
               msg.channel.send(messages[i]);
             }
           }
-        } else {
-          msg.reply("Please provide the correct arguments only.");
-        }
-        
+        }    
       } 
     }
 }

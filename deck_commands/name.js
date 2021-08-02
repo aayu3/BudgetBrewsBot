@@ -13,7 +13,8 @@ function sanitizeCommand(msg) {
 
 module.exports = {
     name: 'name',
-    description : "Filter Decks by Name",
+    description : "Filter decks by their name.",
+    usage : "<deck_name>",
     execute(msg, decks, args) {
       let messageContents = sanitizeCommand(msg);
       if (messageContents[0] == "name") {

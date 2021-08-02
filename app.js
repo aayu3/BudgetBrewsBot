@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const { prefix } = require('./config.json');
 require('dotenv').config();
 
 
@@ -73,12 +74,13 @@ for (const file of deckcommandFiles) {
 // function to sanitize msgs and return an array of commands and arguments
 // returns 0 if the message is not a command
 // i.e `!mute @jeff` becomes ['mute', 'jeff'];
-const prefix = "!";
 
 client.login(process.env.BOT_TOKEN);
 
 client.on('ready', () => {
   console.log('The Bot is ready!')
+  client.user.setActivity("!help"); 
+  
 });
 
 
@@ -91,11 +93,26 @@ client.on('message', (msg) => {
   if (!msg.content.startsWith(prefix) || msg.author.bot) return;
   
   const args = msg.content.slice(prefix.length).trim().split(/ +/);
-  const command = args.shift();
+  const command_name = args.shift();
 
-  if (client.deck_commands.has(command)) {
+  const command = client.deck_commands.get(command_name)
+		|| client.deck_commands.find(cmd => cmd.aliases && cmd.aliases.includes(command_name));
+
+	if (!command) return;
+
+  /* Currently buggy and pops up still
+  if (command.usage) {
+    if (command_name == "color" && args.length == 1) {
+    } else {
+      let reply = `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+      msg.channel.send(reply);
+    }
+  }
+  */
+
+  if (client.deck_commands.has(command_name)) {
     try {
-      client.deck_commands.get(command).execute(msg, decks, args);
+      client.deck_commands.get(command_name).execute(msg, decks, args);
     } catch (error) {
       console.error(error);
       msg.reply("Error trying to execute this command.");
@@ -109,5 +126,7 @@ client.on('message', (msg) => {
     if (msg.author.bot && msg.content.includes("Link: ")) {
       msg.suppressEmbeds(true);
     }
+
+
 });
 // Token Change
