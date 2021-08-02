@@ -46,7 +46,7 @@ decks = JSON.parse(rawdata);
 const client = new Discord.Client({
   partials: ['MESSAGE', 'REACTION', 'CHANNEL'],
 });
-client.deck_commands = new Discord.Collection();
+client.commands = new Discord.Collection();
 
 
 // Load commands in adminitrative_commands
@@ -65,7 +65,7 @@ const deckcommandFiles = fs.readdirSync('./deck_commands').filter(file => file.e
 // Add them to the collection
 for (const file of deckcommandFiles) {
   const command = require(`./deck_commands/${file}`);
-  client.deck_commands.set(command.name, command);
+  client.commands.set(command.name, command);
 }
 
 
@@ -95,8 +95,8 @@ client.on('message', (msg) => {
   const args = msg.content.slice(prefix.length).trim().split(/ +/);
   const command_name = args.shift();
 
-  const command = client.deck_commands.get(command_name)
-		|| client.deck_commands.find(cmd => cmd.aliases && cmd.aliases.includes(command_name));
+  const command = client.commands.get(command_name)
+		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command_name));
 
 	if (!command) return;
 
@@ -110,9 +110,14 @@ client.on('message', (msg) => {
   }
   */
 
-  if (client.deck_commands.has(command_name)) {
+  if (client.commands.has(command_name)) {
     try {
-      client.deck_commands.get(command_name).execute(msg, decks, args);
+      if (command_name == "help") {
+        client.commands.get(command_name).execute(msg, client.commands, args);
+      } else {
+        client.commands.get(command_name).execute(msg, decks, args);
+      }
+      
     } catch (error) {
       console.error(error);
       msg.reply("Error trying to execute this command.");

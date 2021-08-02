@@ -13,7 +13,7 @@ function sanitizeCommand(msg) {
 
 module.exports = {
     name: 'color',
-    description : "Filter decks by their color, if there is an argument like atmost, includes/atleast, exact it will apply that argument to the input, otherwise it will default to an exact matching.",
+    description : "Filter decks by their color, if there is an argument like `atmost`, `includes/atleast`, `exact` it will apply that argument to the input, otherwise it will default to an `exact` matching.",
     usage: '<filter> <colors>',
     execute(msg, decks, args) {
       let messageContents = sanitizeCommand(msg);
