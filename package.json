@@ -9,6 +9,7 @@
     "discord.js": "^12.5.3",
     "dotenv": "^8.6.0",
     "fs": "^0.0.1-security",
+    "json-2-csv": "^3.14.1",
     "request": "^2.88.2"
   },
   "devDependencies": {},
