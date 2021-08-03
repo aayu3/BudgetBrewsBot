@@ -17,6 +17,8 @@ module.exports = {
     name: 'adddeck',
     description : 'Add a deck to the database.\n Example: `!adddeck Yeetsan 2; G; https://google.com; Yisan | Commander 2; Proactive; Kamui, Walking Ballista`',
     usage : '<deck_name>, <colors>, <link>, <commanders>, <strategy>, <authors>',
+    permissions: 'MANAGE_ROLES',
+    guildOnly: true,
     execute(msg, decks, args) {
       let messageContents = sanitizeCommand(msg);
       if (messageContents[0] == "adddeck") {
@@ -49,6 +51,7 @@ module.exports = {
           // write CSV to a file
           fs.writeFile('decks.csv', csv, (error) => { console.log("unable to add deck.")});
         });
+        msg.reply("Your deck has been added!");
     }
   }
 }

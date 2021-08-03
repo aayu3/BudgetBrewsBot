@@ -109,6 +109,12 @@ client.on('message', (msg) => {
     }
   }
   */
+  if (command.permissions) {
+    const authorPerms = msg.channel.permissionsFor(msg.author);
+    if (!authorPerms || !authorPerms.has(command.permissions)) {
+      msg.reply('Please ask a Deck Helper for assistance!');
+    }
+  }
 
   if (client.commands.has(command_name)) {
     try {
