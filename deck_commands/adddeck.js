@@ -13,15 +13,17 @@ function sanitizeCommand(msg) {
     return sanitized.split(" ");
   }
 
+
 module.exports = {
     name: 'adddeck',
     description : 'Add a deck to the database.\n Example: `!adddeck Yeetsan 2; G; https://google.com; Yisan | Commander 2; Proactive; Kamui, Walking Ballista`',
     usage : '<deck_name>, <colors>, <link>, <commanders>, <strategy>, <authors>',
-    permissions: 'MANAGE_ROLES',
+    permissions: 'ADMINISTRATOR',
     guildOnly: true,
     execute(msg, decks, args) {
       let messageContents = sanitizeCommand(msg);
       if (messageContents[0] == "adddeck") {
+        if(msg.member.roles.cache.some(r=>["Admin", "BB Deck Bot Admin"].includes(r.name)) ) {
         let deckInfo = messageContents.slice(1).join(" ").split(";");
         console.log(deckInfo)
         var today = new Date();
@@ -52,6 +54,7 @@ module.exports = {
           fs.writeFile('decks.csv', csv, (error) => { console.log("unable to add deck.")});
         });
         msg.reply("Your deck has been added!");
+      }
     }
   }
 }
