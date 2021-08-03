@@ -54,6 +54,8 @@ module.exports = {
           fs.writeFile('decks.csv', csv, (error) => { console.log("unable to add deck.")});
         });
         msg.reply("Your deck has been added!");
+      } else {
+        msg.reply("You do not have permission to use this command. Please ask an administrator for assistance.")
       }
     }
   }
