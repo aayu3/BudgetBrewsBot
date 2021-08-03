@@ -21,7 +21,7 @@ module.exports = {
     guildOnly: true,
     execute(msg, decks, args) {
       let messageContents = sanitizeCommand(msg);
-      if (messageContents[0] == "deck") {
+      if (messageContents[0] == "decks") {
         let messages = deckFormat.printMultiDecks(decks);
         for (var i = 0; i < messages.length; i++) {
           msg.channel.send(messages[i]);
